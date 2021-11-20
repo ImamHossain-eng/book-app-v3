@@ -52,11 +52,13 @@
                                 <a href="/user/book/{{$book->id}}/edit" class="btn btn-success">
                                     <i class="fa fa-check"></i>
                                 </a>
+                                @if($book->confirmed != 1)
                                 {{Form::open(['method'=>'DELETE', 'route'=>['user.book_destroy',$book->id],'style'=>'display:inline;']) }}
                                 <button type="submit" style="display:inline;" class="btn btn-danger">
                                     <i class="fa fa-trash"></i>
                                 </button>
                                 {{Form::close()}}
+                                @endif
                                 
                             </td>
                         </tr>

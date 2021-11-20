@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2021 at 06:15 PM
+-- Generation Time: Nov 20, 2021 at 05:49 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -55,8 +55,31 @@ INSERT INTO `books` (`id`, `name`, `image`, `category`, `price`, `confirmed`, `u
 (48, 'Bradley Turner', 'no_image.png', 'null', 731, 1, '1', '2021-07-15 08:53:17', '2021-07-15 08:53:17', 'Nihil minima minus c', '<p>svd</p>', 4, 0),
 (49, 'Demetrius Robbins', 'no_image.png', '11', 841, 1, '1', '2021-07-15 09:16:42', '2021-08-02 15:40:56', 'Aliquam natus ut nec', '<p>xfgjnfgyhn</p>', 0, 0),
 (52, 'Alfreda Ingram', 'no_image.png', '11', 890, 1, '43', '2021-08-04 15:54:25', '2021-08-04 16:20:50', 'Aut Nam aliquid fuga', '<p>&nbsp;njk.bjk.</p>', 3, 1813083311),
-(54, 'Computer Fundamentals', 'no_image.png', '8', 350, 0, '69', '2021-08-15 13:41:00', '2021-08-15 13:41:00', 'Ismail Jabiullah', '<p>sdgvzdfgb</p>', 3, 1915970075),
-(57, 'Callum Sandoval', 'no_image.png', '12', 785, 1, '1', '2021-08-15 14:42:23', '2021-08-15 14:42:23', 'Vero dolorem quia no', '<p>gyjkhg</p>', 0, 301);
+(57, 'Callum Sandoval', 'no_image.png', '12', 785, 1, '1', '2021-08-15 14:42:23', '2021-08-15 14:42:23', 'Vero dolorem quia no', '<p>gyjkhg</p>', 0, 301),
+(65, 'Florence Potter', 'no_image.png', '9', 990, 0, '69', '2021-11-20 16:47:50', '2021-11-20 16:47:50', 'Qui omnis quas et es', '<p>jjhg</p>', 3, 1915970075);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dues`
+--
+
+CREATE TABLE `dues` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `amount` double NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `dues`
+--
+
+INSERT INTO `dues` (`id`, `user_id`, `book_id`, `amount`, `status`, `created_at`, `updated_at`) VALUES
+(6, 69, 65, 99, 1, '2021-11-20 16:47:50', '2021-11-20 16:48:42');
 
 -- --------------------------------------------------------
 
@@ -137,7 +160,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (21, '2021_08_04_213938_add_varsity_to_books_table', 19),
 (22, '2021_08_04_214900_add_number_to_books_table', 19),
 (23, '2021_08_13_225551_create_posts_table', 20),
-(24, '2021_08_15_213547_add_author_to_posts_table', 21);
+(24, '2021_08_15_213547_add_author_to_posts_table', 21),
+(25, '2021_11_17_212116_create_dues_table', 22),
+(26, '2021_11_17_212117_create_dues_table', 23),
+(27, '2021_11_17_212118_create_dues_table', 24),
+(28, '2021_11_17_215138_create_recharges_table', 25),
+(29, '2021_11_17_215139_create_recharges_table', 26),
+(30, '2021_11_17_215130_create_recharges_table', 27);
 
 -- --------------------------------------------------------
 
@@ -177,6 +206,32 @@ INSERT INTO `posts` (`id`, `user_id`, `book_name`, `number`, `body`, `created_at
 (9, 69, 'Octavius Bradley', 1915970075, '<p>v gjk,v jh,k</p>', '2021-08-15 15:48:09', '2021-08-15 15:48:09', 'Sint molestias ut cu'),
 (10, 69, 'Priscilla Mcpherson', 1813083311, '<p>b hjkl jbl</p>', '2021-08-15 15:49:53', '2021-08-15 15:49:53', 'Laborum Ut praesent'),
 (11, 69, 'Ori Wilson', 17114563, '<p>m[&#39;</p>', '2021-08-15 15:50:06', '2021-08-15 15:50:06', 'Eos totam dolore ul');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `recharges`
+--
+
+CREATE TABLE `recharges` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `number` int(11) NOT NULL,
+  `amount` double NOT NULL,
+  `trans_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `method` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `confirmed` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `recharges`
+--
+
+INSERT INTO `recharges` (`id`, `user_id`, `number`, `amount`, `trans_id`, `method`, `confirmed`, `created_at`, `updated_at`) VALUES
+(1, 69, 1915970075, 26.6, 'jjii1122', 'Bkash', 1, '2021-11-20 16:28:29', '2021-11-20 16:39:11'),
+(2, 69, 1915970075, 26.6, 'jiuh1523', 'Nagad', 1, '2021-11-20 16:48:27', '2021-11-20 16:48:42');
 
 -- --------------------------------------------------------
 
@@ -237,8 +292,6 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `is_admin`, `pa
 (44, 'Clarke Spears', 'cd@gmail.com', NULL, NULL, '$2y$10$KbV5d5Hs0hboHqjNPMqj4.lkkFfAQN0b2jl4cbYQSqXDSqAri7gMa', NULL, '2021-08-04 16:37:16', '2021-08-04 16:37:16', NULL, '3'),
 (45, 'Craig Goodwin', 'tonoy11@gmail.com', NULL, NULL, '$2y$10$DYyRnqngJAMAlVgm63TMHeJBeCd0LSRVC8UZetInZZVCjlfrziQNq', NULL, '2021-08-04 16:38:10', '2021-08-04 16:38:10', NULL, '3'),
 (46, 'Md Saiful Islam', 'saiful@gmail.com', NULL, NULL, '$2y$10$cgCQueUHghCI/xi.N2oPXuFOmxYOM4r1XaMye.b9XojMoejR4gYfe', NULL, '2021-08-06 07:43:37', '2021-08-06 07:45:37', '0', '3'),
-(47, 'Mim Shikder', 'mim@gmail.com', NULL, NULL, '$2y$10$gfZtmhsNQJ.O6osaXX/TWuaLB5KguuenVbUMFETsSiH3Ix3G9eNWi', NULL, '2021-08-12 18:10:59', '2021-08-12 18:11:48', '0', '3'),
-(68, 'Opu', 'opu@gmail.com', NULL, NULL, '$2y$10$wRYYmtr8DOw3ZK.Ztx26EuHSDnHT7/7vK1P.vwCSIlLjjwLmnHwK.', NULL, '2021-08-14 17:13:54', '2021-08-14 17:15:00', '0', '4'),
 (69, 'Babu', 'babubpx2762@gmail.com', NULL, NULL, '$2y$10$bmsRGzYM/4myP9rsgU8ML.atGlU56atYvIKcMXf87tZT/cGskOz7e', NULL, '2021-08-15 13:36:26', '2021-08-15 13:38:43', '0', '3');
 
 -- --------------------------------------------------------
@@ -275,6 +328,12 @@ ALTER TABLE `books`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `dues`
+--
+ALTER TABLE `dues`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -306,6 +365,13 @@ ALTER TABLE `posts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `recharges`
+--
+ALTER TABLE `recharges`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `recharges_trans_id_unique` (`trans_id`);
+
+--
 -- Indexes for table `types`
 --
 ALTER TABLE `types`
@@ -332,7 +398,13 @@ ALTER TABLE `varsities`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+
+--
+-- AUTO_INCREMENT for table `dues`
+--
+ALTER TABLE `dues`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -350,13 +422,19 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `recharges`
+--
+ALTER TABLE `recharges`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `types`

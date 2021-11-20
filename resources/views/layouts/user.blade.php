@@ -32,6 +32,7 @@
   @else 
   <a href="/" class="w3-bar-item w3-button">Back to Home</a>
   <a href="/user/books" class="w3-bar-item w3-button">Available Books</a>
+  <a href="/user/dues" class="w3-bar-item w3-button">Available Due</a>
   <a href="/user/book" class="w3-bar-item w3-button">User Book List</a>
   <a href="/user/post" class="w3-bar-item w3-button">User Post List</a>
   @endif

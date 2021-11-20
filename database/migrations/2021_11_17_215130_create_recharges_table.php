@@ -17,7 +17,7 @@ class CreateRechargesTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('number');
-            $table->integer('amount');
+            $table->double('amount', 8);
             $table->string('trans_id')->unique();
             $table->string('method');
             $table->boolean('confirmed');

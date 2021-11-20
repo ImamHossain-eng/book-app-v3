@@ -87,12 +87,20 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function(){
     Route::get('/post', [BackController::class, 'post_index'])->name('admin.post_index');
     Route::get('/post/{id}', [BackController::class, 'post_show'])->name('admin.post_show');
     Route::delete('/post/{id}', [BackController::class, 'post_destroy'])->name('admin.post_destroy');
+
+    Route::get('/recharges', [BackController::class, 'recharge_index'])->name('admin.recharge_index');
+    Route::put('/recharge/{id}', [BackController::class, 'recharge_update'])->name('admin.recharge_update');
+
 });
 
 //User Route
 Route::prefix('user')->group(function(){
     //Available books
     Route::get('/books', [UserController::class, 'books_index'])->name('user.books_index');
+    //Available due
+    Route::get('/dues', [UserController::class, 'dues_index'])->name('user.dues_index');
+    Route::get('/recharge/create', [UserController::class, 'recharge_create'])->name('user.recharge_create');
+    Route::post('/recharge', [UserController::class, 'recharge_store'])->name('user.recharge_store');
     //Book Published
     Route::get('/book', [UserController::class, 'book_index'])->name('user.book_index');
     Route::get('/book/create', [UserController::class, 'book_create'])->name('user.book_create');

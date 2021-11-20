@@ -22,7 +22,7 @@
                     <input type="number" name="number" value="{{$book->number}}" placeholder="Enter Contact Number" class="form-control">
                 </div><br>
                 <div class="form-group">
-                    <select name="confirmed" class="form-control btn btn-secondary">
+                    <select name="confirmed" class="form-control btn btn-secondary text-left">
                         <option value="null">Choose Status</option>
                         <option value="0">Pending</option>
                         <option value="1">Published</option>

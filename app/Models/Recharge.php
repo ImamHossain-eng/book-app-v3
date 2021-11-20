@@ -17,4 +17,7 @@ class Recharge extends Model
         'method',
         'confirmed'
     ];
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

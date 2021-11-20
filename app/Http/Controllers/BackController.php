@@ -14,6 +14,7 @@ use App\Models\Order;
 use App\Models\Account;
 use App\Models\Recharge;
 use App\Models\Post;
+use App\Models\Due;
 
 
 use Image;
@@ -331,6 +332,17 @@ class BackController extends Controller
         $book->image = $file_name;
         $book->confirmed = $confirm;
         $book->save();
+        // due validation
+        $dues = Due::where('book_id', $book->id)->first();
+        if(!$dues){
+            $due = new Due;
+            $due->user_id = $book->user;
+            $due->book_id = $book->id;
+            $due->status = false;
+            $due->amount = $book->price * 0.1;
+            $due->save();
+        }
+
         return redirect()->route('admin.book_index')->with('warning', 'Successfully Updated');
     }
     public function book_show($id){
@@ -348,5 +360,18 @@ class BackController extends Controller
     public function post_destroy($id){
         Post::find($id)->delete();
         return redirect()->route('admin.post_index')->with('error', 'Removed a post successfully');
+    }
+    public function recharge_index(){
+        $recharges = Recharge::latest()->paginate(10);
+        return view('admin.recharge_index', compact('recharges'));
+    }
+    public function recharge_update($id){
+        $recharge = Recharge::find($id);
+        $recharge->confirmed = true;
+        $recharge->save();
+        $due = Due::where('user_id', $recharge->user_id)->where('status', false)->first();
+        $due->status = true;
+        $due->save();
+        return redirect()->route('admin.recharge_index')->with('success', 'Recharge Confirmed and Clear user due');
     }
 }

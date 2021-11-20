@@ -35,6 +35,7 @@
   <a href="/admin/book" class="w3-bar-item w3-button">All Books</a>
   <a href="/admin/book/type" class="w3-bar-item w3-button">Books Category</a>
   <a href="/admin/post" class="w3-bar-item w3-button">Post List</a>
+  <a href="/admin/recharges" class="w3-bar-item w3-button">Recharge List</a>
   <a href="/admin/feedback" class="w3-bar-item w3-button">Feedbacks</a>
   <div>
         <a class="w3-bar-item w3-button" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>

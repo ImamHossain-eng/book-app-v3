@@ -10,6 +10,7 @@ use App\Models\Book;
 use App\Models\Varsity;
 use App\Models\Post;
 use App\Models\Due;
+use App\Models\Recharge;
 
 
 use Auth;
@@ -34,6 +35,33 @@ class UserController extends Controller
         $user = Auth::user()->id;
         $books = Book::where('user', $user)->paginate(10);
         return view('user.book_index', compact('books'));
+    }
+    public function dues_index(){
+        $dues = Auth::user()->dues;
+        return view('user.dues_index', compact('dues'));
+    }
+    public function recharge_create(){
+        $due = Due::where('user_id', Auth::user()->id)->where('status', false)->first();
+        return view('user.recharge_create', compact('due'));
+    }
+    public function recharge_store(Request $request){
+        $this->validate($request, [
+            'number' => 'required',
+            'amount' => 'required',
+            'trans_id' => 'required',
+            'method' => 'required'
+        ]);
+
+        $recharge = new Recharge;
+        $recharge->user_id = Auth::user()->id;
+        $recharge->number = $request->input('number');
+        $recharge->amount = $request->input('amount');
+        $recharge->trans_id = $request->input('trans_id');
+        $recharge->method = $request->input('method');
+        $recharge->confirmed = false;
+        $recharge->save();
+        return redirect()->route('user.dues_index')->with('success', 'Wait for admin approval.');
+
     }
     public function book_show($id){
         $book = Book::find($id);
@@ -103,23 +131,7 @@ class UserController extends Controller
             'category' => 'required',
             'number' => 'required|max:11|min:10'
         ]);
-
-        $user_dues = Due::where('user_id', Auth::user()->id)
-                        ->where('status', false)->first();
-        if(!$user_dues){
-            $due = new Due;
-            $due->user_id = Auth::user()->id;
-            $due->book_id = 1;
-            $due->status = false;
-            $due->amount = $request->input('price') * 0.1;
-            $due->save();
-        }else{
-            //return 'Paid your dues:' . number_format($user_dues->amount, 2) . '/= BDT';
-            return redirect()->route('user.book_index')->with('error', 'Paid your previous dues: '. $user_dues->amount.' BDT');
-        }
-
-        
-
+        //Image Validation
         if($request->hasFile('image')){
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
@@ -129,20 +141,41 @@ class UserController extends Controller
             $file_name = 'no_image.png';
         }
 
+        $user_dues = Due::where('user_id', Auth::user()->id)
+                        ->where('status', false)->first();
+        if(!$user_dues){
 
-        $book = new Book;
-        $book->name = $request->input('name');
-        $book->author = $request->input('author');
-        $book->price = $request->input('price');
-        $book->category = $request->input('category');
-        $book->description = $request->input('description');
-        $book->number = $request->input('number');
-        $book->varsity = Auth::user()->varsity;
-        $book->image = $file_name;
-        $book->user = Auth::user()->id;
-        $book->confirmed = false;
-        $book->save();
+            $book = new Book;
+            $book->name = $request->input('name');
+            $book->author = $request->input('author');
+            $book->price = $request->input('price');
+            $book->category = $request->input('category');
+            $book->description = $request->input('description');
+            $book->number = $request->input('number');
+            $book->varsity = Auth::user()->varsity;
+            $book->image = $file_name;
+            $book->user = Auth::user()->id;
+            $book->confirmed = false;
+            $book->save();
+        
+
+
+            $due = new Due;
+            $due->user_id = Auth::user()->id;
+            $due->book_id = $book->id;
+            $due->status = false;
+            $due->amount = $request->input('price') * 0.1;
+            $due->save();
+
+        }else{
+            //return 'Paid your dues:' . number_format($user_dues->amount, 2) . '/= BDT';
+            return redirect()->route('user.book_index')->with('error', 'Paid your previous dues: '. $user_dues->amount.' BDT');
+        }
+        
+
         return redirect()->route('user.book_index')->with('success', 'Successfully Created');
+
+        
     }
     public function book_destroy($id){
         $book = Book::find($id);

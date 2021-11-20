@@ -18,4 +18,8 @@ class Book extends Model
     public function type(){
         return $this->belongsTo(Type::class);
     }
+    public function dues()
+    {
+        return $this->hasMany(Due::class);
+    }
 }
